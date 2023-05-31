@@ -2,10 +2,10 @@
 
 //update 2023.5 by Serke
  
-// how to use:
-//	put this file into folders of batclient: /scripts  
+//how to use:
+//put this file into folders of batclient: /scripts  
 
-//	in-game setting:	set stop_on_trails  on
+//in-game setting:	set stop_on_trails  on
 //in-game setting:	/alias loc = $s_path
 
 //load script:	/scriptreload
