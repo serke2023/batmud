@@ -14,6 +14,7 @@ SCRIPT_DESC = "";
 // run script: /scriptbootup
 
 //  usually stand at the gate of the area(outworld)  type 'loc' , it will shows paths list,if no path it will shows 'no such path"
+//  all ferry spot at the room whitch Ticketmaster there
 //  then type 'loc <number>' to choose a path to go
 //  ppl can add paths by themself : 1 add area coordination ; 2 add paths for this area ,all the update should reload and re-run script
 
