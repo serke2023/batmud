@@ -7,7 +7,6 @@
 
 //	in-game setting:	set stop_on_trails  on
 //in-game setting:	/alias loc = $s_path
-//in-game setting:	command travel travle $*
 
 //load script:	/scriptreload
 //run script:	/scriptbootup
