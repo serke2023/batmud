@@ -129,7 +129,7 @@ void f_InitPath() {
 	
 	global.hashmap_Paths = new HashMap();
 
-////////////////////Laenor////////////////////
+	////////////////////Laenor////////////////////
 	global.hashmap_Paths.put("South Cross -> Church","travel e;3 n;20 w;5 s;20 w;1 w;5 n;7 w;20 w;20 w;20 w;");	
 	global.hashmap_Paths.put("Church -> South Cross","20 e;20 e;20 e;7 e;5 s;20 e;1 e;5 n;20 e;3 s;travel w;");	
 	
@@ -164,7 +164,7 @@ void f_InitPath() {
 	global.hashmap_Paths.put("South Cross -> Chateau de le bigeaul","travel e;travel s;travel e;travel ne;travel n;4 e;se;s;");	
 	global.hashmap_Paths.put("Chateau de le bigeaul -> South Cross","n;nw;4 w;travel sw;travel s;travel w;travel nw;travel w;");	
 	
-////////////////////Deso////////////////////
+	////////////////////Deso////////////////////
 	global.hashmap_Paths.put("liberator -> Sunderland","3 w;travel ne;travel nw;nw;");			
 	
 	global.hashmap_Paths.put("Sunderland -> Calythien Cross","se;travel se;travel s;travel s;travel se;travel e;");			
@@ -195,13 +195,13 @@ void f_InitPath() {
 	
 	global.hashmap_Paths.put("Sunderland -> liberator","3 se;travel s 20;travel s 15;3 e;");		
 	
-////////////////////Lucen////////////////////
+	////////////////////Lucen////////////////////
 
 
-////////////////////Furn////////////////////
+	////////////////////Furn////////////////////
 	
 
-////////////////////Roth////////////////////
+	////////////////////Roth////////////////////
 	
 }
 
