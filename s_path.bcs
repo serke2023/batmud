@@ -4,18 +4,18 @@ SCRIPT_DESC = "";
 //update 2023.5.30 by Serke
 
 // how to use:
-//			put this file into:	 /scripts folders of batclient
+// put this file into:	 /scripts folders of batclient
 
-//			in-game setting: 	set stop_on_trails  on
-//        in-game setting: 	/alias loc = $s_path
-//        in-game setting: 	command tv travle $*
+// in-game setting: set stop_on_trails  on
+// in-game setting: /alias loc = $s_path
+// in-game setting: command tv travle $*
 
-//			load script:   		/scriptreload
-//        run script:    		 /scriptbootup
+// load script: /scriptreload
+// run script: /scriptbootup
 
-//        usually stand at the gate of the area(outworld)  type 'loc' , it will shows paths list,if no path it will shows 'no such path"
-// 		then type 'loc <number>' to choose a path to go
-//        ppl can add paths by themself : 1 add area coordination ; 2 add paths for this area ,all the update should reload and re-run script
+//  usually stand at the gate of the area(outworld)  type 'loc' , it will shows paths list,if no path it will shows 'no such path"
+//  then type 'loc <number>' to choose a path to go
+//  ppl can add paths by themself : 1 add area coordination ; 2 add paths for this area ,all the update should reload and re-run script
 
 
 import java.util.*;
