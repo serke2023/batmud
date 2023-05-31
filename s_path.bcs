@@ -1,32 +1,47 @@
+//script for onland area-area navigating walking
+
+//update 2023.5 by Serke
+ 
+// how to use:
+//	put this file into folders of batclient: /scripts  
+
+//	in-game setting:	set stop_on_trails  on
+//in-game setting:	/alias loc = $s_path
+//in-game setting:	command travel travle $*
+
+//load script:	/scriptreload
+//run script:	/scriptbootup
+
+//type 'loc' at the entrance of the area(usually in outworld map) 
+//it will shows available paths,it will shows 'no such path" if no paths there, 
+//type 'loc <number>' to choose a path to go
+//player can add paths by themself : 
+//first add area coordination; 
+//2nd add paths which start from where u stand 
+//all the added or updated should reload and re-run script to work
+// all ferry start room is at ticketman room
+// all main city start  from esiris portal room
+
+
+
+
 SCRIPT_NAME = "s_path";
 SCRIPT_DESC = "";
-
-//update 2023.5.30 by Serke
-
-// how to use:
-// put this file into:	 /scripts folders of batclient
-
-// in-game setting: set stop_on_trails  on
-// in-game setting: /alias loc = $s_path
-// in-game setting: command tv travle $*
-
-// load script: /scriptreload
-// run script: /scriptbootup
-
-//  usually stand at the gate of the area(outworld)  type 'loc' , it will shows paths list,if no path it will shows 'no such path"
-//  all ferry spot at the room whitch Ticketmaster there
-//  then type 'loc <number>' to choose a path to go
-//  ppl can add paths by themself : 1 add area coordination ; 2 add paths for this area ,all the update should reload and re-run script
+SCRIPT_ON = true;
 
 
 import java.util.*;
 import java.util.regex.*;
 
+
 Color yellow = new Color(255, 255, 0);
 
+
 void bootup() {
+	clientGUI.doCommand("set stop_on_trails  on");
 	f_InitPath();
 }
+
 
 void run()	{
    triggerManager.newTrigger("my_location_trigger",
@@ -37,7 +52,6 @@ void run()	{
 
 	clientGUI.doCommand("whereami");
 }
-
 
 
 void f_show_location_name(){
@@ -74,10 +88,13 @@ void f_show_location_name(){
 			
 			clientGUI.printText("general",v_id+" "+ global.PathsList.get(v_id-1)+"\n","FFFF00");	
 			//clientGUI.printText("general",v_PahtWay+"\n","FFFF00");
-			v_path = "nomvlk;"+v_PahtWay+"mvlk;l";
+			
 			clientGUI.doCommand("gagoutput set suppress_lf_on_move on");
-			clientGUI.doCommand(v_path);	
+			clientGUI.doCommand("set look_on_move off");
+			clientGUI.doCommand(v_PahtWay);	
+			clientGUI.doCommand("set look_on_move on");
 			clientGUI.doCommand("gagoutput set suppress_lf_on_move off");
+			clientGUI.doCommand("look");
 		}
 		else{
 			clientGUI.printText("general","No such Path!\n","FF0000");	
@@ -90,7 +107,7 @@ void f_InitPath() {
 
 	global.MyLocations = new HashMap();
 	global.MyLocations.put("8557x, 8486y","Pluras Castle");	
-	global.MyLocations.put("8561x, 8667y","South Cross");
+	global.MyLocations.put("8557x, 8667y","South Cross");
 	global.MyLocations.put("8682x, 8661y","Drawbridge");
 	global.MyLocations.put("8772x, 8571y","Dortlewall");
 	global.MyLocations.put("8788x, 8602y","Tyr Farwyn");
@@ -106,74 +123,78 @@ void f_InitPath() {
 	global.MyLocations.put("8480x, 8625y","Oakvale");	
 	global.MyLocations.put("8720x, 8621y","Chateau de le bigeaul");	
 	global.MyLocations.put("8710x, 8700y","The riddle of the colours");		
+	global.MyLocations.put("8493x, 8553y","Laenor Ferry");			
+	global.MyLocations.put("8555x, 8664y","Church");		
 	
 	
 	
 	global.hashmap_Paths = new HashMap();
 
 ////////////////////Laenor////////////////////
-	global.hashmap_Paths.put("South Cross -> Drawbridge","tv s;tv e;tv ne;e;3 ne;7 e;");	
-	global.hashmap_Paths.put("Drawbridge -> South Cross","7 w;3 sw;w;tv s;tv w;tv nw;");	
+	global.hashmap_Paths.put("South Cross -> Church","travel e;3 n;20 w;5 s;20 w;1 w;5 n;7 w;20 w;20 w;20 w;");	
+	global.hashmap_Paths.put("Church -> South Cross","20 e;20 e;20 e;7 e;5 s;20 e;1 e;5 n;20 e;3 s;travel w;");	
 	
-	global.hashmap_Paths.put("South Cross -> Pluras Castle","tv s;tv e;tv ne;tv n;tv n;tv nw;tv n;tv w;tv w;4 w;2 nw;2 w;");
-	global.hashmap_Paths.put("Pluras Castle -> South Cross","2 e;2 se;4 e;tv e;tv e;tv se;tv s;tv s;tv sw;tv s;tv w;tv nw;");
+	global.hashmap_Paths.put("South Cross -> Laenor Ferry","3 travel w;travel nw;travel n;n;2 w;2 n;nw;");	
+	global.hashmap_Paths.put("Laenor Ferry -> South Cross","se;2 s;2 e;travel s;travel se;travel e;travel se;travel e;");	
 	
-	global.hashmap_Paths.put("Tyr Farwyn -> South Cross","tv n;tv w;tv sw;tv s;tv sw;tv s;tv w;tv nw;");	
+	global.hashmap_Paths.put("South Cross -> Drawbridge","travel e;travel s;travel e;travel ne;e;3 ne;7 e;");	
+	global.hashmap_Paths.put("Drawbridge -> South Cross","7 w;3 sw;w;travel s;travel w;travel nw;travel w;");	
+	
+	global.hashmap_Paths.put("South Cross -> Pluras Castle","travel e;travel s;travel e;travel ne;travel n;travel n;travel nw;travel n;travel w;travel w;4 w;2 nw;2 w;");
+	global.hashmap_Paths.put("Pluras Castle -> South Cross","2 e;2 se;4 e;travel e;travel e;travel se;travel s;travel s;travel sw;travel s;travel w;travel nw;travel w;");
+	
+	global.hashmap_Paths.put("Tyr Farwyn -> South Cross","travel n;travel w;travel sw;travel s;travel sw;travel s;travel w;travel nw;travel e;");	
 
-	global.hashmap_Paths.put("South Cross -> Vendace Shore","tv w;tv w;tv w;tv w;tv nw;tv w;");
-	global.hashmap_Paths.put("Vendace Shore -> South Cross","tv e;tv se;tv e;tv se;tv e;tv e;");		
-	global.hashmap_Paths.put("Vendace Shore -> Laenor Ferry","tv e;tv n;n;2 w;2 n;nw;");		
-	global.hashmap_Paths.put("South Cross -> The riddle of the colours","tv s;tv e;tv ne 20;5 e;4 se;4 e;se;e;se;14 e;se;12 e;ne;4 e;n;");		
-	global.hashmap_Paths.put("The riddle of the colours -> South Cross","s;4 w;sw;12 w;nw;14 w;nw;w;nw;4 w;4 nw;w;tv w;tv w;tv nw;");		
-
-
-
-	global.hashmap_Paths.put("South Cross -> Laenor Ferry","tv w;tv w;tv w;tv w;tv nw;tv n;n;2 w;2 n;nw;");	
-	global.hashmap_Paths.put("Laenor Ferry ->South Cross","se;2 s;2 e;tv s;tv se;tv e;tv se;tv e;tv e;");	
+	global.hashmap_Paths.put("South Cross -> Vendace Shore","2 travel w;travel w;travel w;travel w;travel nw;travel w;");
+	global.hashmap_Paths.put("Vendace Shore -> South Cross","travel e;travel se;travel e;travel se;travel e;");		
+	
+	global.hashmap_Paths.put("Vendace Shore -> Laenor Ferry","travel e;travel n;n;2 w;2 n;nw;");	
+	global.hashmap_Paths.put("Vendace Shore -> Oakvale","travel e;travel se 20;travel s 7;11 w;");	
+	global.hashmap_Paths.put("Oakvale -> Vendace Shore","11 e;travel n;travel w;");	
+	global.hashmap_Paths.put("Oakvale -> South Cross","11 e;travel s;travel e;travel se;travel e;");
+	global.hashmap_Paths.put("South Cross -> Oakvale","3 travel w;travel nw 20;11 w;");	
+	
+	global.hashmap_Paths.put("South Cross -> The riddle of the colours","travel e;travel s;travel e;travel ne 20;5 e;4 se;4 e;se;e;se;14 e;se;12 e;ne;4 e;n;");		
+	global.hashmap_Paths.put("The riddle of the colours -> South Cross","s;4 w;sw;12 w;nw;14 w;nw;w;nw;4 w;4 nw;w;travel w;travel w;travel nw;travel w;");		
 
 	global.hashmap_Paths.put("The riddle of the colours -> Chess Board","6 s;7 sw;5 se;s;10 se;10 s;6 sw;11 s;5 sw;11 s;6 se;6 s;sw;3 w;");
 	
-	global.hashmap_Paths.put("South Cross -> Inn of Kaukovainio","tv s;tv e;tv ne;10 n;3 ne;3 n;10 ne;13 w;4 n;3 e;");		
+	global.hashmap_Paths.put("South Cross -> Inn of Kaukovainio","travel e;travel s;travel e;travel ne;10 n;3 ne;3 n;10 ne;13 w;4 n;3 e;");		
+	global.hashmap_Paths.put("Inn of Kaukovainio -> South Cross","3 w;4 s;13 e;travel sw;travel s;travel w;travel nw;travel w;");	
 
-	global.hashmap_Paths.put("Inn of Kaukovainio -> South Cross","3 w;4 s;13 e;tv sw;tv s;tv w;tv nw;");		
-	global.hashmap_Paths.put("Vendace Shore -> Oakvale","tv e;tv se 20;tv s 7;11 w;");	
-	global.hashmap_Paths.put("Oakvale -> South Cross","11 e;tv s;tv e;tv se;tv e;tv e;");
-	global.hashmap_Paths.put("South Cross -> Oakvale","4 tv w;tv nw 20;11 w;");		
-	global.hashmap_Paths.put("Oakvale -> Vendace Shore","11 e;tv n;tv w;");
-
-	global.hashmap_Paths.put("South Cross -> Chateau de le bigeaul","tv s;tv e;tv ne;tv n;4 e;se;s;");	
-	
+	global.hashmap_Paths.put("South Cross -> Chateau de le bigeaul","travel e;travel s;travel e;travel ne;travel n;4 e;se;s;");	
+	global.hashmap_Paths.put("Chateau de le bigeaul -> South Cross","n;nw;4 w;travel sw;travel s;travel w;travel nw;travel w;");	
 	
 ////////////////////Deso////////////////////
-	global.hashmap_Paths.put("liberator -> Sunderland","3 w;tv ne;tv nw;nw;");			
+	global.hashmap_Paths.put("liberator -> Sunderland","3 w;travel ne;travel nw;nw;");			
 	
-	global.hashmap_Paths.put("Sunderland -> Calythien Cross","se;tv se;tv s;tv s;tv se;tv e;");			
+	global.hashmap_Paths.put("Sunderland -> Calythien Cross","se;travel se;travel s;travel s;travel se;travel e;");			
 	global.hashmap_Paths.put("Calythien Cross -> Ochimo","7 sw;14 s;");	
 	global.hashmap_Paths.put("Ochimo -> Calythien Cross","14 n;7 ne;");	
 
-	global.hashmap_Paths.put("Calythien Cross -> Calythien Adventure Guild","tv n;7 n;2 w;2 n;4 w;3 n;7 w;");	
+	global.hashmap_Paths.put("Calythien Cross -> Calythien Adventure Guild","travel n;7 n;2 w;2 n;4 w;3 n;7 w;");	
 	
-	global.hashmap_Paths.put("Calythien Cross -> Buckthorn","tv sw;tv sw;tv sw;11 e;9 se;6 e;4 se;16 s;4 se;5 s;8 se;11 w;15 sw;8 w;6 sw;20 w;3 n;");	
-	global.hashmap_Paths.put("Buckthorn -> Calythien Cross","3 s;20 e;6 ne;8 e;15 ne;11 e;8 nw;5 n;4 nw;16 n;4 nw;6 w;9 nw;11 w;tv ne;tv e;tv e;");
+	global.hashmap_Paths.put("Calythien Cross -> Buckthorn","travel sw;travel sw;travel sw;11 e;9 se;6 e;4 se;16 s;4 se;5 s;8 se;11 w;15 sw;8 w;6 sw;20 w;3 n;");	
+	global.hashmap_Paths.put("Buckthorn -> Calythien Cross","3 s;20 e;6 ne;8 e;15 ne;11 e;8 nw;5 n;4 nw;16 n;4 nw;6 w;9 nw;11 w;travel ne;travel e;travel e;");
 
-	global.hashmap_Paths.put("Calythien Cross -> Mythical Valley","tv sw;tv sw;tv sw;11 e;9 se;6 e;4 se;16 s;4 se;5 s;8 se;16 s;");	
+	global.hashmap_Paths.put("Calythien Cross -> Mythical Valley","travel sw;travel sw;travel sw;11 e;9 se;6 e;4 se;16 s;4 se;5 s;8 se;16 s;");	
 	
 	global.hashmap_Paths.put("Mythical Valley -> Buckthorn","w;ne;15 n;11 w;15 sw;8 w;6 sw;20 w;3 n;");		
-	global.hashmap_Paths.put("Mythical Valley -> Calythien Cross","nw;15n;e;8 nw;5 n;4 nw;16 n;4 nw;6 w;9 nw;11 w;tv ne;tv e;tv e;");		
+	global.hashmap_Paths.put("Mythical Valley -> Calythien Cross","nw;15n;e;8 nw;5 n;4 nw;16 n;4 nw;6 w;9 nw;11 w;travel ne;travel e;travel e;");		
 	
-	global.hashmap_Paths.put("Calythien Cross -> Sunderland","tv sw;tv nw;tv n;tv n;");		
-	global.hashmap_Paths.put("Calythien Cross -> liberator","tv sw;tv nw;tv n;tv n;tv s 20 s;tv s 15;3 e;");		
-	global.hashmap_Paths.put("Calythien Cross -> Windham","tv se;tv se;tv s;tv se;10 e;");		
+	global.hashmap_Paths.put("Calythien Cross -> Sunderland","travel sw;travel nw;travel n;travel n;");		
+	global.hashmap_Paths.put("Calythien Cross -> liberator","travel sw;travel nw;travel n;travel n;travel s 20 s;travel s 15;3 e;");		
+	global.hashmap_Paths.put("Calythien Cross -> Windham","travel se;travel se;travel s;travel se;10 e;");		
 	
-	global.hashmap_Paths.put("liberator -> Calythien Cross","3 w;tv sw;tv s;tv se;tv e;");	
+	global.hashmap_Paths.put("liberator -> Calythien Cross","3 w;travel sw;travel s;travel se;travel e;");	
 	
 	global.hashmap_Paths.put("Buckthorn -> Mythical Valley","3 s;20 e;6 ne;8 e;15 ne;11 e;16 s;");	
 
-	global.hashmap_Paths.put("Windham -> liberator","10 w;tv w;tv n;tv n;tv nw;tv sw;tv nw;tv n;tv n;tv s 20 s;tv s 15;3 e;");
+	global.hashmap_Paths.put("Windham -> liberator","10 w;travel w;travel n;travel n;travel nw;travel sw;travel nw;travel n;travel n;travel s 20 s;travel s 15;3 e;");
 
-	global.hashmap_Paths.put("Windham -> Calythien Cross","10 w;tv w;tv n;tv n;tv nw;");
+	global.hashmap_Paths.put("Windham -> Calythien Cross","10 w;travel w;travel n;travel n;travel nw;");
 	
-	global.hashmap_Paths.put("Sunderland -> liberator","3 se;tv s 20;tv s 15;3 e;");		
+	global.hashmap_Paths.put("Sunderland -> liberator","3 se;travel s 20;travel s 15;3 e;");		
 	
 ////////////////////Lucen////////////////////
 
